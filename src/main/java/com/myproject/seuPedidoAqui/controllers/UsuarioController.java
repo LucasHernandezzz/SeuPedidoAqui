@@ -41,6 +41,7 @@ public class UsuarioController {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    //teste coomit
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         Optional<Usuario> usuarioOptional = usuarioService.autenticarUsuario(usuario.getEmail(), usuario.getSenha());
