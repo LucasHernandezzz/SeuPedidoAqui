@@ -1,5 +1,6 @@
 package com.myproject.seuPedidoAqui.controllers;
 
+import com.myproject.seuPedidoAqui.services.SendEmail;
 import com.myproject.seuPedidoAqui.exceptions.EmailJaCadastradoException;
 import com.myproject.seuPedidoAqui.models.Usuario;
 import com.myproject.seuPedidoAqui.services.UsuarioService;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +26,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private SendEmail sendEmail;
+
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrarUsuario(@Valid @RequestBody Usuario usuario, BindingResult result) {
         if (result.hasErrors()) {
@@ -33,6 +38,14 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body(mensagensDeErro);
         }
         Usuario novoUsuario = usuarioService.cadastrarUsuario(usuario);
+
+        try {
+            sendEmail.sendEmail(usuario.getEmail(), "Cadastro criado", "Caro " + usuario.getNome() + ", Sua conta foi criada no Seu Pedido Aqui.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao enviar email de confirmação.");
+        }
+
         return new ResponseEntity<>(novoUsuario, HttpStatus.CREATED);
     }
 
@@ -41,7 +54,6 @@ public class UsuarioController {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    //teste coomit
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         Optional<Usuario> usuarioOptional = usuarioService.autenticarUsuario(usuario.getEmail(), usuario.getSenha());

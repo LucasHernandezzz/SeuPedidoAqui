@@ -8,6 +8,13 @@ import java.util.Random;
 @Table(name = "pedidos")
 public class Pedido {
 
+    public enum Status {
+        EM_PREPARACAO,
+        EM_ENTREGA,
+        ENTREGUE,
+        CANCELADO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,14 +36,20 @@ public class Pedido {
 
     private String pagamento;
 
-    public Pedido() {}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.EM_PREPARACAO;
 
-    public Pedido(Long numeroPedido, Usuario cliente, Long idProduto, double preco, String pagamento) {
+    public Pedido() {
+    }
+
+    public Pedido(Long numeroPedido, Usuario cliente, Long idProduto, double preco, String pagamento, Status status) {
         this.numeroPedido = numeroPedido;
         this.cliente = cliente;
         this.idProduto = idProduto;
         this.preco = preco;
         this.pagamento = pagamento;
+        this.status = status;
     }
 
     @PrePersist
@@ -91,4 +104,13 @@ public class Pedido {
     public void setPagamento(String pagamento) {
         this.pagamento = pagamento;
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus(){
+        return status;
+    }
+
 }
