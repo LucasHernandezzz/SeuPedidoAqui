@@ -5,27 +5,37 @@ import com.myproject.seuPedidoAqui.models.Pedido;
 import java.util.List;
 
 public class ResponsePedidos {
-    private List<Pedido> pedidos;
-    private String mensagem;
 
-    public ResponsePedidos(List<Pedido> pedidos, String mensagem) {
-        this.pedidos = pedidos;
-        this.mensagem = mensagem;
+    private Long numeroPedido;
+    private String nomeCliente;
+    private Double preco;
+    private Pedido.Status status;
+
+    public ResponsePedidos(Long numeroPedido, String nomeCliente, Double preco, Pedido.Status status) {
+        this.numeroPedido = numeroPedido;
+        this.nomeCliente = nomeCliente;
+        this.preco = preco;
+        this.status = status;
     }
 
-    public String getMensagem() {
-        return mensagem;
+    public ResponsePedidos(List<Object> objects, String nomeCliente) {
     }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    // Getters
+    public Long getNumeroPedido() {
+        return numeroPedido;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
+    public String getNomeCliente() {
+        return nomeCliente;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public Double getPreco() {
+        return preco;
+    }
+
+    public Pedido.Status getStatus() {
+        return status;
     }
 }
+

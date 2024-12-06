@@ -11,6 +11,15 @@ import java.util.List;
 @Table(name = "usuarios")
 public class Usuario {
 
+    public enum Role {
+        CLIENTE,
+        ADMIN
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.CLIENTE;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -71,4 +80,11 @@ public class Usuario {
         this.pedidos = pedidos;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
+    }
 }

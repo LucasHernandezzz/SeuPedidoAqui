@@ -23,8 +23,10 @@ public class SecurityConfig {
                                 "/api/usuarios/login",
                                 "/api/usuarios/cadastro",
                                 "/api/pedidos/cadastro",
-                                "/api/pedidos//listarPedidoId/**",
-                                "/api/pedidos/**",
+                                "/api/pedidos/listarPedidoId/**",
+                                "/api/pedidos/cancelar/**",
+                                "/api/pedidos/listarPedidos",
+                                "api/pedidos/atualizarPedido",
                                 "/css/**",
                                 "/js/**",
                                 "/img/**"

@@ -12,10 +12,12 @@ import jdk.jfr.Frequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -55,6 +57,46 @@ public class PedidoController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/atualizarPedido")
+    public ResponseEntity<Map<String, Object>> atualizarPedido(@RequestBody Map<String, Object> payload) {
+
+        if (!payload.containsKey("numeroPedido") || !payload.containsKey("novoStatus")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", "Parâmetros 'numeroPedido' e 'novoStatus' são obrigatórios"));
+        }
+
+        Long numeroPedido;
+        try {
+            numeroPedido = Long.parseLong(payload.get("numeroPedido").toString());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", "Formato inválido para 'numeroPedido'"));
+        }
+
+        Pedido.Status novoStatus;
+        try {
+            novoStatus = Pedido.Status.valueOf(payload.get("novoStatus").toString());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", "Formato inválido para 'novoStatus'"));
+        }
+
+
+        Optional<Pedido> pedidoOptional = pedidoService.obterPedidoPorNumero(numeroPedido);
+
+        if (pedidoOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", "Pedido não encontrado"));
+        }
+
+        Pedido pedido = pedidoOptional.get();
+        pedido.setStatus(novoStatus);
+        pedidoService.salvarPedido(pedido);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("mensagem", "Status do pedido atualizado com sucesso");
+        response.put("pedido", pedido);
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/cancelar/{numeroPedido}")
     public ResponseEntity<Map<String, Object>> cancelarPedido(@PathVariable Long numeroPedido) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findByNumeroPedido(numeroPedido);
@@ -91,27 +133,41 @@ public class PedidoController {
     }
 
     @GetMapping("/listarPedidoId/{usuarioId}")
-    public ResponseEntity<ResponsePedidos> listarPedidoId(@PathVariable Long usuarioId) {
+    public ResponseEntity<?> listarPedidoId(@PathVariable Long usuarioId) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuarioId);
 
         if (usuarioOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ResponsePedidos(Collections.emptyList(), "Usuário não encontrado."));
+                    .body("Usuário não encontrado.");
         }
 
         String nomeUsuario = usuarioOptional.get().getNome();
         List<Pedido> pedidos = pedidoRepository.findByClienteId(usuarioId);
 
-        String mensagem;
         if (pedidos.isEmpty()) {
-            mensagem = "Nenhum pedido encontrado para o cliente " + nomeUsuario + ".";
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new ResponsePedidos(Collections.emptyList(), mensagem));
-        } else {
-            mensagem = "Estes foram os pedidos encontrados para o usuário: " + nomeUsuario;
+            String mensagem = "Nenhum pedido encontrado para o cliente " + nomeUsuario + ".";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensagem);
         }
 
-        return ResponseEntity.ok(new ResponsePedidos(pedidos, mensagem));
+        // Mapear os pedidos para ResponsePedidos
+        List<ResponsePedidos> responsePedidos = pedidos.stream()
+                .map(pedido -> new ResponsePedidos(
+                        pedido.getNumeroPedido(),
+                        pedido.getCliente().getNome(),
+                        pedido.getPreco(),
+                        pedido.getStatus()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responsePedidos);
     }
-}
+
+    @GetMapping("/listarPedidos")
+    public ResponseEntity<List<ResponsePedidos>> listarPedidos() {
+        List<ResponsePedidos> pedidos = pedidoService.listarTodos();
+        if (pedidos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(pedidos);
+        }
+    }
