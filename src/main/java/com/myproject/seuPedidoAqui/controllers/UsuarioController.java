@@ -59,7 +59,7 @@ public class UsuarioController {
         Optional<Usuario> usuarioOptional = usuarioService.autenticarUsuario(usuario.getEmail(), usuario.getSenha());
         if (usuarioOptional.isPresent()) {
             Usuario usuarioLogado = usuarioOptional.get();
-            return ResponseEntity.ok(Map.of("message", "Login bem-sucedido!", "id", usuarioLogado.getId()));
+            return ResponseEntity.ok(Map.of("message", "Login bem-sucedido!", "id", usuarioLogado.getId(), "role", usuarioLogado.getRole()));
         } else {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }

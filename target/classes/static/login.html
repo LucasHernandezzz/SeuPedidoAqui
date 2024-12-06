@@ -20,7 +20,7 @@
 
 <script>
     document.getElementById("loginForm").addEventListener("submit", async function(event) {
-        event.preventDefault(); // Impede o envio padrão do formulário
+        event.preventDefault();
 
         const email = document.getElementById("email").value;
         const senha = document.getElementById("senha").value;
@@ -39,6 +39,7 @@
             const usuarioId = data.id; // aqui vai pegar o id do usuario guilherme pra na hora de criar o pedido ele setar
             console.log("ID do usuário logado:", usuarioId);
             sessionStorage.setItem("usuarioId", usuarioId);
+            sessionStorage.setItem('isAdmin', data.role === 'ADMIN');
             window.location.href = "/index.html"
         } else {
             const errorMessage = await response.text();
