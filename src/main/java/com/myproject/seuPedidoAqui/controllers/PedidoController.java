@@ -57,7 +57,6 @@ public class PedidoController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/atualizarPedido")
     public ResponseEntity<Map<String, Object>> atualizarPedido(@RequestBody Map<String, Object> payload) {
 
