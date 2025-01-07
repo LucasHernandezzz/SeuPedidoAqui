@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/carrinho.css"/>
+  <title>Carrinho de Compras</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+  <span>Meus Pedidos</span>
+</header>
+<main>
+  <div class="page-title">Seu Carrinho</div>
+  <div class="content">
+    <section>
+      <table>
+        <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Preço</th>
+          <th>Quantidade</th>
+          <th>Total</th>
+          <th>-</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <div class="product">
+              <img class="img-carrinho" src="./img/foto-item.jpeg" alt="" />
+              <div class="info">
+                <div class="name" id="produto-nome">Nome do produto</div>
+                <div class="category">Categoria</div>
+              </div>
+            </div>
+          </td>
+          <td id="produto-preco">R$ 21,00</td>
+          <td>
+            <div class="qty">
+              <button id="decrease-qty"><i class="bx bx-minus"></i></button>
+              <span id="quantidade">1</span>
+              <button id="increase-qty"><i class="bx bx-plus"></i></button>
+            </div>
+          </td>
+          <td id="total">R$ 21,00</td>
+          <td>
+            <button class="remove"><i class="bx bx-x"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <aside>
+      <div class="box">
+        <header>Resumo da compra</header>
+        <div class="info">
+          <div><span>Sub-total</span><span id="subtotal">R$ 21,00</span></div>
+          <div><span>Frete</span><span>Gratuito</span></div>
+          <div>
+            <button>
+              Adicionar cupom de desconto
+              <i class="bx bx-right-arrow-alt"></i>
+            </button>
+          </div>
+        </div>
+        <footer>
+          <span>Total</span>
+          <span id="total-final">R$ 21,00</span>
+        </footer>
+      </div>
+      <form id="pedidoForm">
+        <div class="pagamento">
+          <label class="txt-pagamento" for="pagamento">Forma de Pagamento</label>
+          <select id="pagamento" name="pagamento" required>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="Pix">Pix</option>
+            <option value="Dinheiro">Dinheiro</option>
+          </select>
+        </div>
+        <button type="submit">Finalizar Compra</button>
+      </form>
+    </aside>
+  </div>
+</main>
+</body>
+
+
+
+
+
+
+
+
+<script src="./js/script.js"></script>
+</html>

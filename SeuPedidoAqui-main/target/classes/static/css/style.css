@@ -1,0 +1,188 @@
+h1 {
+    font-size: 25px;
+    font-family: "Roboto";
+}
+
+p {
+    font-size: 15px;
+    font-family: "Roboto";
+}
+
+
+header {
+    background-color: red;
+    margin-bottom: 50px;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-around;
+}
+
+.image-header {
+    width: 50px;
+}
+
+.main_icon-header {
+    display: flex;
+    gap: 30px;
+}
+
+.cardapio {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.container-itens {
+    display: flex;
+    gap: 20px;
+}
+
+.card-item {
+    display: flex;
+    border: solid;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    border-color: gray;
+}
+
+.div-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+.imagem-cardapio {
+    width: 100px;
+    border-radius: 5px;
+}
+
+.itens-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.itens-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-bottom {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    padding: 5px 0px 5px 0px;
+}
+
+.bottom-global {
+    display: flex;
+    justify-content: space-around;
+}
+
+.img-bottom {
+    width: 50px;
+}
+
+.text-home {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.text-pedido {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.text-carrinho {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+
+
+
+/*
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-txt {
+    font-family: 'Arial';
+    font-size: 30px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+*/
+
+
+.main-pedidos {
+    display: flex;
+    justify-content: center;
+}
+
+.txt-pedidos {
+    text-align: center;
+    background-color: red;
+    padding: 20px;
+}
+
+.desc-pedidos {
+    border: solid;
+    border-color: grey;
+    border-width: 1px;
+    padding: 10px;
+}
+
+.detalhes-pedido {
+    background-color: red;
+    padding: 20px;
+    text-align: center;
+}
+
+.container-pedidos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: solid;
+    width: 50%;
+}
